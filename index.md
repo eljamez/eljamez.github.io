@@ -2,8 +2,8 @@
 Here you will find React Components and other JavaScript goodness. I hope they are helpful:
 
 ## Notable Repos
-* [jquery.ofthemonth](http://eljamez.github.io/Vanilla-JS-Library-Boilerplate/)
-* [jquery.bgpin](http://eljamez.github.io/react-keyboard-component/)
+* [React Keyboard 🎹](http://eljamez.github.io/react-keyboard-component/) - A piano keyboard React component w/ musical typing.
+* [Vanilla JS Library Boilerplate](http://eljamez.github.io/Vanilla-JS-Library-Boilerplate/) - A starting place to create a JavaScript library.
 
 ## More eljamez on the web
 * [eljamez.com](http://eljamez.com)

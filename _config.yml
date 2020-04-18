@@ -2,7 +2,4 @@ title: eljamez
 description: plugins n' stuff on GitHub
 google_analytics: UA-12417692-3
 show_downloads: true
-theme: jekyll-theme-hacker
-
-gems:
-  - jekyll-mentions
+theme: none

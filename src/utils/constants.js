@@ -1,3 +1,18 @@
+export const sections = [
+  {
+    id: 1,
+    name: "Repos",
+  },
+  {
+    id: 2,
+    name: "NPM",
+  },
+  {
+    id: 3,
+    name: "CodePen",
+  },
+];
+
 export const copy = {
   header: "JameScript.com",
   subheader: "JavaScript / CSS and more by James Augustus Hall",

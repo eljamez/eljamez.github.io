@@ -25,53 +25,6 @@ export const container = css`
   }
 `;
 
-export const headerContainer = css`
-  box-shadow: 0 0 5px 0 ${gray};
-  background: linear-gradient(
-    0deg,
-    rgba(${yellowVals}, 0.8) 0%,
-    ${yellow} 100%
-  );
-  padding: ${spLarge};
-
-  @media (min-width: ${mobileWidth}) {
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 1;
-    height: ${headerHeight};
-    padding: ${spLarge} ${spLarge} 0 ${spLarge};
-  }
-`;
-
-export const header = css`
-  display: inline-block;
-  color: ${gray};
-  font-size: 2rem;
-  margin: 0;
-  padding: 0;
-  text-shadow: 0px 0px 1px ${yellow};
-
-  @media (min-width: ${mobileWidth}) {
-    font-size: 6rem;
-    transition: all 0.2s ease;
-    transform: translateY(-${spLarge});
-    z-index: 2;
-
-    &:hover {
-      transform: translateY(0px);
-    }
-  }
-`;
-
-export const subheader = css`
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: ${gray};
-  z-index: 1;
-`;
-
 export const content = css`
   padding: ${spMid} ${spLarge};
 

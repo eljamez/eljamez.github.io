@@ -1,41 +1,35 @@
 <script>
-  import { fly, fade } from "svelte/transition";
   import { quintOut } from "svelte/easing";
-  import {
-    container,
-    headerContainer,
-    header,
-    subheader,
-    footer
-  } from "./styles/styles.js";
-  import { copy } from "./utils/constants.js";
-  import Content from "./components/Content.svelte";
+  import { container, footer } from "./styles/styles.js";
+  import { sections, copy } from "./utils/constants.js";
+  import Container from "./components/Container.svelte";
+  import Header from "./components/Header.svelte";
   import Sidebar from "./components/Sidebar.svelte";
-
-  let headerHovered = false;
-  const handleHeaderMouseOver = e => {
-    headerHovered = true;
-  };
-
-  const handleHeaderMouseOut = e => {
-    headerHovered = false;
-  };
+  import Nav from "./components/Nav.svelte";
+  import About from "./components/About.svelte";
+  import Content from "./components/Content.svelte";
+  import Footer from "./components/Footer.svelte";
 </script>
 
-<div class={container}>
-  <header class={headerContainer} on:mouseout={handleHeaderMouseOut}>
-    {#if headerHovered}
-      <h3
-        class={subheader}
-        transition:fade={{ delay: 150, duration: 400, easing: quintOut }}>
-        {copy.subheader}
-      </h3>
-    {/if}
-    <h1 class={header} on:mouseover={handleHeaderMouseOver}>{copy.header}</h1>
-  </header>
-  <Sidebar />
+<Container>
+  <Header />
+  <Sidebar>
+    <Nav>
+      <button>
+        <i class="fab fa-github" />
+        Repos
+      </button>
+      <button>
+        <i class="fab fa-github" />
+        NPM
+      </button>
+      <button>
+        <i class="fab fa-github" />
+        CodePen
+      </button>
+    </Nav>
+    <About />
+  </Sidebar>
   <Content />
-  <footer class={footer}>
-    <p>James Augustus Hall &copy;</p>
-  </footer>
-</div>
+  <Footer />
+</Container>

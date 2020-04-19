@@ -1,5 +1,8 @@
 <script>
-  import { content } from "../styles/styles.js";
+  import styles from "../styles/content";
+
+  // import styles
+  const { container } = styles;
 
   const sections = [
     {
@@ -43,7 +46,7 @@
   ];
 </script>
 
-<main class={content}>
+<main class={styles.content}>
   {#each sections as section}
     <h2>{section.name}</h2>
     <div class={`section_${section.name.toLowerCase()}`}>

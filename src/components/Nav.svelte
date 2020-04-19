@@ -1,12 +1,12 @@
 <script>
-  import styles from "../styles/sidebar";
+  import styles from "../styles/nav";
 
   // import styles
   const { container } = styles;
 </script>
 
-<aside class={styles.sidebar}>
+<nav class={styles.nav}>
   <slot>
     <em>missing content</em>
   </slot>
-</aside>
+</nav>

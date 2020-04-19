@@ -43,7 +43,7 @@
   ];
 </script>
 
-<div class={content}>
+<main class={content}>
   {#each sections as section}
     <h2>{section.name}</h2>
     <div class={`section_${section.name.toLowerCase()}`}>
@@ -81,4 +81,4 @@
       {/each}
     </div>
   {/each}
-</div>
+</main>

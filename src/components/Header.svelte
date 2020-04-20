@@ -1,4 +1,5 @@
 <script>
+  import { quintOut } from "svelte/easing";
   import { fly, fade } from "svelte/transition";
   import styles from "../styles/header.js";
   import { copy } from "../utils/constants.js";

@@ -11,7 +11,8 @@
         {
           name: "React Keyboard 🎹",
           description: "A piano keyboard React component w/ musical typing.",
-          url: "https://www.jamescript.com/React-Keyboard/"
+          url: "https://www.jamescript.com/React-Keyboard/",
+          iconClass: "fa-music"
         },
         {
           name: "Vanilla JS Library Boilerplate",

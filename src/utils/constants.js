@@ -2,14 +2,20 @@ export const sections = [
   {
     id: 1,
     name: "Repos",
+    iconClass: "fa-github",
+    color: "blue",
   },
   {
     id: 2,
     name: "NPM",
+    iconClass: "fa-npm",
+    color: "red",
   },
   {
     id: 3,
     name: "CodePen",
+    iconClass: "fa-codepen",
+    color: "purple",
   },
 ];
 

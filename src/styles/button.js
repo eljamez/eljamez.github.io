@@ -1,5 +1,5 @@
 import emotion from "emotion/dist/emotion.umd.min.js";
-import { mobile, spacing, colors } from "./shared";
+import { mobile, spacing, colors, rgb } from "./shared";
 
 const { css } = emotion;
 
@@ -32,19 +32,20 @@ const styles = {
       transition: all .4s ease;
     }
 
+    @media (min-width: ${mobile.width}) {
+      font-size: 
+      border: 0px;
+    }
+  `,
+
+  unselected: css`
     &:hover {
-      background-color: ${colors.gray};
       span {
         transform: scaleX(1);
       }
       i {
-        transform: scale(.8);
+        transform: scale(0.8);
       }
-    }
-
-    @media (min-width: ${mobile.width}) {
-      font-size: 
-      border: 0px;
     }
   `,
 

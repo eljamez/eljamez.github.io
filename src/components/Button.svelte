@@ -1,12 +1,13 @@
 <script>
+  import { afterUpdate } from "svelte";
+  import { currentSection } from "../stores";
+
+  import emotion from "emotion/dist/emotion.umd.min.js";
+  import { colors } from "../styles/shared";
+  import styles from "../styles/button";
+
   export let section;
   export let handleButtonClick;
-
-  import { afterUpdate } from "svelte";
-  import { currentSection } from "../stores.js";
-  import styles from "../styles/button";
-  import { colors } from "../styles/shared";
-  import emotion from "emotion/dist/emotion.umd.min.js";
 
   const { css } = emotion;
 
@@ -23,7 +24,7 @@
 <button
   class={css`
     ${styles.button};
-    ${isSelected && styles.selected};
+    ${isSelected ? styles.selected : styles.unselected};
     background-color: ${isSelected && colors[section.color]};
     color: ${colors[section.color]};`}
   data-name={section.name}

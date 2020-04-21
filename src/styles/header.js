@@ -5,7 +5,8 @@ const { css } = emotion;
 
 const styles = {
   headerContainer: css`
-    box-shadow: 0 0 5px 0 ${colors.gray};
+    border-bottom: 2px solid ${colors.gray};
+    box-shadow: 0 0 2px 4px ${colors.gray};
     background: linear-gradient(
       0deg,
       rgba(${rgb.yellow}, 0.8) 0%,

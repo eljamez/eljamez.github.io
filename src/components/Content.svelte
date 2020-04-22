@@ -18,17 +18,20 @@
   const { container } = styles;
 
   let isSelected;
-  let section = sections[0];
+  let currSection = sections[0];
 
   afterUpdate(() => {
-    section = sections.find(section => section.name === $currentSection);
+    currSection = sections.find(section => section.name === $currentSection);
   });
 </script>
 
 <main
   class={css`
     ${styles.content};
-    border-left: 5px solid ${colors[section.color]};
-    background: linear-gradient(90deg, rgba(${rgb[section.color]}, 1) 0%, rgba(${rgb[section.color]}, 0.5) 100%);`}>
-  <Section {section} />
+    background: linear-gradient(90deg, rgba(${rgb[currSection.color]}, 1) 0%, rgba(${rgb[currSection.color]}, 0.5) 100%);`}>
+  {#each sections as section}
+    {#if section.name === $currentSection}
+      <Section {section} />
+    {/if}
+  {/each}
 </main>

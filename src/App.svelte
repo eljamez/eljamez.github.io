@@ -2,8 +2,8 @@
   import { sections, copy } from "./utils/constants.js";
   import { currentSection } from "./stores.js";
   import Container from "./components/Container.svelte";
-  import Header from "./components/Header.svelte";
   import Sidebar from "./components/Sidebar.svelte";
+  import Title from "./components/Title.svelte";
   import Button from "./components/Button.svelte";
   import Nav from "./components/Nav.svelte";
   import About from "./components/About.svelte";
@@ -16,8 +16,8 @@
 </script>
 
 <Container>
-  <Header />
   <Sidebar>
+    <Title />
     <Nav>
       {#each sections as section}
         <Button {section} {handleButtonClick} />

@@ -5,6 +5,11 @@ export const mobile = {
 
 export const height = {
   header: "104px",
+  footer: "100px",
+};
+
+export const width = {
+  sidebar: "200px",
 };
 
 // spacing

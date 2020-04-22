@@ -1,14 +1,16 @@
 import emotion from "emotion/dist/emotion.umd.min.js";
-import { mobile, spacing } from "./shared";
+import { mobile, spacing, height } from "./shared";
 
 const { css } = emotion;
 
 const styles = {
   footer: css`
+    display: none;
+    box-sizing: border-box;
+    height: ${height.footer};
     padding: ${spacing.small} ${spacing.large};
     @media (min-width: ${mobile.width}) {
-      grid-column: 1 / span 2;
-      grid-row: 3 / span 1;
+      display: none;
     }
   `,
 };

@@ -52,7 +52,7 @@ const styles = {
   selected: css`
      {
       color: white;
-      transform: translateX(${spacing.small});
+      transform: translateX(${spacing.large});
       text-shadow: 0 1px 1px ${colors.gray};
       span {
         transform: scaleX(1);

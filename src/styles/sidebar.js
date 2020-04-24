@@ -7,7 +7,7 @@ const styles = {
   sidebar: css`
     ${mixins.transition};
     box-sizing: border-box;
-    background-image: url("../../bg.png");
+    background-image: url("../../public/bg.png");
     text-shadow: 0px 0px 2px black;
     font-size: 0.8rem;
     padding-top: ${mobile.height.header};

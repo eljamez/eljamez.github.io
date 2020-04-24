@@ -26,8 +26,14 @@ const styles = {
     }
 
     @media (min-width: ${mobile.width}) {
-      text-align: right;
       width: 100%;
+      i {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (min-width: ${tablet.width}) {
+      text-align: right;
       span {
         display: inline-block;
         font-size: 1.3rem;
@@ -38,12 +44,6 @@ const styles = {
         padding-right: ${spacing.xsmall};
         line-height: 2.1rem;
       }
-      i {
-        font-size: 2.5rem;
-      }
-    }
-
-    @media (min-width: ${tablet.width}) {
     }
   `,
 
@@ -82,7 +82,8 @@ const styles = {
       }
 
       @media (min-width: ${mobile.width}) {
-        transform: translateX(${spacing.large});
+        transform: translateX(${spacing.xLarge});
+        width: 80%;
         span {
           transform: scaleX(1);
         }
@@ -92,6 +93,7 @@ const styles = {
       }
       @media (min-width: ${tablet.width}) {
         transform: translateX(${spacing.large});
+        width: 100%;
         span {
           transform: scaleX(1);
         }

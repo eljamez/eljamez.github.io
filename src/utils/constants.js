@@ -57,17 +57,17 @@ export const sections = [
         name: "Place those Buttons!",
         description: "Just a fun experiment to place dots on a screen",
         url: "https://codepen.io/eljamez/pen/OJPMQbV",
-        penUrl: "https://codepen.io/eljamez/pen/OJPMQbV",
         embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Place those Buttons!" src="https://codepen.io/eljamez/embed/OJPMQbV?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/OJPMQbV'>Place those Buttons!</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
       </iframe>`,
-        iconClass: "fab fa-js",
+        iconClass: "far fa-circle",
       },
       {
         id: 2,
-        name: "Place those Buttons!",
-        description: "Just a fun experiment to place dots on a screen",
+        name: "Bendo",
+        description: "Bending elements based on scroll position",
+        url: "https://codepen.io/eljamez/pen/byVojv",
         embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Bendo" src="https://codepen.io/eljamez/embed/byVojv?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/byVojv'>Bendo</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
@@ -85,7 +85,7 @@ export const copy = {
 
 export const links = [
   {
-    name: "eljamez.com",
+    name: "eljamez",
     url: "https://eljamez.com",
     iconClass: "fas fa-laptop-house",
   },
@@ -95,7 +95,7 @@ export const links = [
     iconClass: "fab fa-twitter",
   },
   {
-    name: "enslymogul.com",
+    name: "ensly mogul",
     url: "https://enslymogul.com",
     iconClass: "fas fa-music",
   },
@@ -107,7 +107,7 @@ export const links = [
   {
     name: "linkedin",
     url: "https://www.linkedin.com/in/eljamez/",
-    iconClass: "fab fa-codepen",
+    iconClass: "fab fa-linkedin-in",
   },
   {
     name: "spotify",

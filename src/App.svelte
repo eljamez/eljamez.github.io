@@ -40,6 +40,9 @@
     </Nav>
     {#if !$isMobile}
       <Links />
+      <Footer>
+        <i class="fas fa-coffee" />
+      </Footer>
     {/if}
   </Sidebar>
   <Content />

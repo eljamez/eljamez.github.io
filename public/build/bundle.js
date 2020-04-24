@@ -745,17 +745,17 @@ var app = (function () {
             name: "Place those Buttons!",
             description: "Just a fun experiment to place dots on a screen",
             url: "https://codepen.io/eljamez/pen/OJPMQbV",
-            penUrl: "https://codepen.io/eljamez/pen/OJPMQbV",
             embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Place those Buttons!" src="https://codepen.io/eljamez/embed/OJPMQbV?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/OJPMQbV'>Place those Buttons!</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
       </iframe>`,
-            iconClass: "fab fa-js",
+            iconClass: "far fa-circle",
           },
           {
             id: 2,
-            name: "Place those Buttons!",
-            description: "Just a fun experiment to place dots on a screen",
+            name: "Bendo",
+            description: "Bending elements based on scroll position",
+            url: "https://codepen.io/eljamez/pen/byVojv",
             embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Bendo" src="https://codepen.io/eljamez/embed/byVojv?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/byVojv'>Bendo</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
@@ -773,7 +773,7 @@ var app = (function () {
 
     const links = [
       {
-        name: "eljamez.com",
+        name: "eljamez",
         url: "https://eljamez.com",
         iconClass: "fas fa-laptop-house",
       },
@@ -783,7 +783,7 @@ var app = (function () {
         iconClass: "fab fa-twitter",
       },
       {
-        name: "enslymogul.com",
+        name: "ensly mogul",
         url: "https://enslymogul.com",
         iconClass: "fas fa-music",
       },
@@ -795,7 +795,7 @@ var app = (function () {
       {
         name: "linkedin",
         url: "https://www.linkedin.com/in/eljamez/",
-        iconClass: "fab fa-codepen",
+        iconClass: "fab fa-linkedin-in",
       },
       {
         name: "spotify",
@@ -1360,8 +1360,14 @@ var app = (function () {
     }
 
     @media (min-width: ${mobile.width}) {
-      text-align: right;
       width: 100%;
+      i {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (min-width: ${tablet.width}) {
+      text-align: right;
       span {
         display: inline-block;
         font-size: 1.3rem;
@@ -1372,12 +1378,6 @@ var app = (function () {
         padding-right: ${spacing.xsmall};
         line-height: 2.1rem;
       }
-      i {
-        font-size: 2.5rem;
-      }
-    }
-
-    @media (min-width: ${tablet.width}) {
     }
   `,
 
@@ -1416,7 +1416,8 @@ var app = (function () {
       }
 
       @media (min-width: ${mobile.width}) {
-        transform: translateX(${spacing.large});
+        transform: translateX(${spacing.xLarge});
+        width: 80%;
         span {
           transform: scaleX(1);
         }
@@ -1426,6 +1427,7 @@ var app = (function () {
       }
       @media (min-width: ${tablet.width}) {
         transform: translateX(${spacing.large});
+        width: 100%;
         span {
           transform: scaleX(1);
         }
@@ -1773,24 +1775,57 @@ var app = (function () {
 
     const styles$5 = {
       links: css$5`
-    padding: ${spacing.large};
     ${mixins.textShadow};
-    text-align: right;
+    padding: ${spacing.small} 0 ${spacing.small};
+    text-align: center;
+
     h2 {
-      font-size: 1.8rem;
       ${mixins.headerFont};
+      font-size: 1.8rem;
+      margin: 0;
     }
+
     ul {
       list-style: none;
-      padding: 0;
+      padding: ${spacing.xSmall} 0 0;
 
       li {
-        font-size: 0.8rem;
-        padding: ${spacing.xSmall} 0;
+        font-size: 0.9rem;
+        a {
+          ${mixins.transition};
+          display: block;
+          padding: ${spacing.xSmall} 0 0;
+          line-height: 1.4rem;
+        }
+        a:hover {
+          color: white;
+          transform: translateX(-${spacing.xSmall});
+        }
+        i {
+          margin-left: 0.6rem;
+        }
       }
     }
     p {
       line-height: 1.2rem;
+    }
+
+    @media (min-width: ${mobile.width}) {
+      padding: ${spacing.mid};
+      text-align: right;
+      ul {
+        li {
+          font-size: 0.8rem;
+          i {
+            margin-left: 0.2rem;
+            font-size: 0.6rem;
+          }
+        }
+      }
+    }
+
+    @media (min-width: ${tablet.width}) {
+      padding: ${spacing.large};
     }
   `,
     };
@@ -2147,30 +2182,31 @@ var app = (function () {
 
     const styles$8 = {
       project: css$8`
+    box-sizing: border-box;
     border-radius: 5px;
     padding: ${spacing.mid};
     background-color: rgba(0, 0, 0, 0.5);
-    margin: ${spacing.large} 0 calc(${spacing.large} * 2);
+    margin: ${spacing.large} 0;
     width: 100%;
 
     h3 {
-      margin: 0;
-      color: rgba(0, 0, 0, 0.5);
+      margin: 0 0 ${spacing.xSmall};
       font-size: 1.4rem;
-      transform: translateY(-28px);
-      line-height: 0;
       text-transform: uppercase;
       font-weight: bold;
+      i {
+        margin-right: ${spacing.xSmall};
+      }
     }
 
     p {
-      i {
-        margin-right: ${spacing.small};
-      }
-
       a {
         font-size: 0.8rem;
         font-weight: bold;
+      }
+
+      i {
+        display: none;
       }
     }
 
@@ -2178,17 +2214,35 @@ var app = (function () {
       margin-top: 0px;
     }
 
+    p:last-of-type {
+      margin-bottom: 0px;
+    }
+
     @media (min-width: ${mobile.width}) {
+      margin: 0 0 ${spacing.large};
       h3 {
         font-size: 1.6rem;
-        transform: translateY(-29px);
       }
     }
 
     @media (min-width: ${tablet.width}) {
+      margin: ${spacing.large} 0 calc(${spacing.large} * 2);
       h3 {
         font-size: 1.8rem;
         transform: translateY(-30px);
+        color: rgba(0, 0, 0, 0.5);
+        line-height: 0;
+
+        i {
+          display: none;
+        }
+      }
+
+      p {
+        i {
+          display: inline-block;
+          margin-right: ${spacing.xSmall};
+        }
       }
     }
   `,
@@ -2200,21 +2254,34 @@ var app = (function () {
     // (8:2) {#if project.name}
     function create_if_block_3(ctx) {
     	let h3;
-    	let t_value = /*project*/ ctx[0].name + "";
-    	let t;
+    	let i;
+    	let i_class_value;
+    	let t0;
+    	let t1_value = /*project*/ ctx[0].name + "";
+    	let t1;
 
     	const block = {
     		c: function create() {
     			h3 = element("h3");
-    			t = text(t_value);
+    			i = element("i");
+    			t0 = space();
+    			t1 = text(t1_value);
+    			attr_dev(i, "class", i_class_value = /*project*/ ctx[0].iconClass);
+    			add_location(i, file$7, 9, 6, 150);
     			add_location(h3, file$7, 8, 4, 139);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
-    			append_dev(h3, t);
+    			append_dev(h3, i);
+    			append_dev(h3, t0);
+    			append_dev(h3, t1);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*project*/ 1 && t_value !== (t_value = /*project*/ ctx[0].name + "")) set_data_dev(t, t_value);
+    			if (dirty & /*project*/ 1 && i_class_value !== (i_class_value = /*project*/ ctx[0].iconClass)) {
+    				attr_dev(i, "class", i_class_value);
+    			}
+
+    			if (dirty & /*project*/ 1 && t1_value !== (t1_value = /*project*/ ctx[0].name + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h3);
@@ -2232,7 +2299,7 @@ var app = (function () {
     	return block;
     }
 
-    // (11:2) {#if project.url}
+    // (14:2) {#if project.url}
     function create_if_block_2(ctx) {
     	let p;
     	let a;
@@ -2246,8 +2313,8 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = /*project*/ ctx[0].url);
-    			add_location(a, file$7, 12, 6, 205);
-    			add_location(p, file$7, 11, 4, 195);
+    			add_location(a, file$7, 15, 6, 255);
+    			add_location(p, file$7, 14, 4, 245);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2270,14 +2337,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(11:2) {#if project.url}",
+    		source: "(14:2) {#if project.url}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (16:2) {#if project.description}
+    // (19:2) {#if project.description}
     function create_if_block_1(ctx) {
     	let p;
     	let i;
@@ -2293,8 +2360,8 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			attr_dev(i, "class", i_class_value = /*project*/ ctx[0].iconClass);
-    			add_location(i, file$7, 17, 6, 304);
-    			add_location(p, file$7, 16, 4, 294);
+    			add_location(i, file$7, 20, 6, 354);
+    			add_location(p, file$7, 19, 4, 344);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2318,14 +2385,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(16:2) {#if project.description}",
+    		source: "(19:2) {#if project.description}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (22:2) {#if project.embed}
+    // (25:2) {#if project.embed}
     function create_if_block(ctx) {
     	let html_tag;
     	let raw_value = /*project*/ ctx[0].embed + "";
@@ -2349,7 +2416,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(22:2) {#if project.embed}",
+    		source: "(25:2) {#if project.embed}",
     		ctx
     	});
 
@@ -2533,35 +2600,37 @@ var app = (function () {
     padding: ${spacing.mid};
 
     h2 {
+      ${mixins.headerFont};
+      ${mixins.textShadow};
       margin: 0;
-      font-size: 2rem;
+      font-size: 1.6rem;
       text-align: center;
       padding-bottom: 0;
-      text-shadow: 0 1px 1px black;
+      text-transform: uppercase;
     }
 
     @media (min-width: ${mobile.width}) {
+      padding: ${spacing.mid} ${spacing.large};
       position: absolute;
       justify-self: stretch;
-      min-width: calc(100% - ${spacing.mid} * 2);
+      min-width: 100%;
 
       h2 {
-        display: none;
+        text-align: left;
+        font-size: 1.8rem;
       }
     }
 
     @media (min-width: ${tablet.width}) {
-      padding: ${spacing.mid} ${spacing.large};
       h2 {
-        font-size: 2rem;
-        padding-bottom: ${spacing.mid};
+        display: none;
       }
     }
   `,
 
       description: css$9`
     text-indent: ${spacing.mid};
-    margin: ${spacing.mid} 0 ${spacing.small};
+    margin: ${spacing.mid} 0;
     line-height: 1.6rem;
 
     &::first-letter {
@@ -2574,19 +2643,18 @@ var app = (function () {
   `,
 
       link: css$9`
-    ${mixins.headerFont};
     ${mixins.textShadow};
     font-size: 1.2rem;
     text-align: center;
     margin: 0;
 
     @media (min-width: ${mobile.width}) {
-      margin-bottom: ${spacing.mid};
       text-align: left;
-      font-size: 2rem;
+      padding-bottom: ${spacing.mid};
     }
 
     @media (min-width: ${tablet.width}) {
+      margin-bottom: ${spacing.mid};
       font-size: 2rem;
     }
   `,
@@ -3457,10 +3525,22 @@ var app = (function () {
     const styles$a = {
       footer: css$a`
     box-sizing: border-box;
-    height: ${height.footer};
-    padding: ${spacing.small} ${spacing.large};
+    padding: ${spacing.mid};
+    text-align: center;
+
     @media (min-width: ${mobile.width}) {
-      display: none;
+      text-align: right;
+      padding-bottom: 0;
+
+      p {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (min-width: ${tablet.width}) {
+      p {
+        font-size: 0.8rem;
+      }
     }
   `,
     };
@@ -3599,6 +3679,7 @@ var app = (function () {
     }
 
     /* src/App.svelte generated by Svelte v3.20.1 */
+    const file$b = "src/App.svelte";
 
     function get_each_context$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -3653,7 +3734,7 @@ var app = (function () {
     }
 
     // (36:4) <Nav>
-    function create_default_slot_3(ctx) {
+    function create_default_slot_4(ctx) {
     	let each_1_anchor;
     	let current;
     	let each_value = sections;
@@ -3739,7 +3820,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_3.name,
+    		id: create_default_slot_4.name,
     		type: "slot",
     		source: "(36:4) <Nav>",
     		ctx
@@ -3750,28 +3831,45 @@ var app = (function () {
 
     // (41:4) {#if !$isMobile}
     function create_if_block_1$2(ctx) {
+    	let t;
     	let current;
     	const links = new Links({ $$inline: true });
+
+    	const footer = new Footer({
+    			props: {
+    				$$slots: { default: [create_default_slot_3] },
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
     			create_component(links.$$.fragment);
+    			t = space();
+    			create_component(footer.$$.fragment);
     		},
     		m: function mount(target, anchor) {
     			mount_component(links, target, anchor);
+    			insert_dev(target, t, anchor);
+    			mount_component(footer, target, anchor);
     			current = true;
     		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(links.$$.fragment, local);
+    			transition_in(footer.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
     			transition_out(links.$$.fragment, local);
+    			transition_out(footer.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			destroy_component(links, detaching);
+    			if (detaching) detach_dev(t);
+    			destroy_component(footer, detaching);
     		}
     	};
 
@@ -3786,6 +3884,35 @@ var app = (function () {
     	return block;
     }
 
+    // (43:6) <Footer>
+    function create_default_slot_3(ctx) {
+    	let i;
+
+    	const block = {
+    		c: function create() {
+    			i = element("i");
+    			attr_dev(i, "class", "fas fa-coffee");
+    			add_location(i, file$b, 43, 8, 1274);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, i, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(i);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_3.name,
+    		type: "slot",
+    		source: "(43:6) <Footer>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     // (35:2) <Sidebar>
     function create_default_slot_2(ctx) {
     	let t;
@@ -3794,7 +3921,7 @@ var app = (function () {
 
     	const nav = new Nav({
     			props: {
-    				$$slots: { default: [create_default_slot_3] },
+    				$$slots: { default: [create_default_slot_4] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -3874,7 +4001,7 @@ var app = (function () {
     	return block;
     }
 
-    // (46:2) {#if $isMobile}
+    // (49:2) {#if $isMobile}
     function create_if_block$3(ctx) {
     	let current;
 
@@ -3912,14 +4039,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(46:2) {#if $isMobile}",
+    		source: "(49:2) {#if $isMobile}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (47:4) <Footer>
+    // (50:4) <Footer>
     function create_default_slot_1(ctx) {
     	let current;
     	const links = new Links({ $$inline: true });
@@ -3950,7 +4077,7 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(47:4) <Footer>",
+    		source: "(50:4) <Footer>",
     		ctx
     	});
 

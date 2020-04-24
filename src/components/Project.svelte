@@ -6,7 +6,10 @@
 
 <div class={styles.project}>
   {#if project.name}
-    <h3>{project.name}</h3>
+    <h3>
+      <i class={project.iconClass} />
+      {project.name}
+    </h3>
   {/if}
   {#if project.url}
     <p>

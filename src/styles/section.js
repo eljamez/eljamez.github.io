@@ -9,35 +9,37 @@ const styles = {
     padding: ${spacing.mid};
 
     h2 {
+      ${mixins.headerFont};
+      ${mixins.textShadow};
       margin: 0;
-      font-size: 2rem;
+      font-size: 1.6rem;
       text-align: center;
       padding-bottom: 0;
-      text-shadow: 0 1px 1px black;
+      text-transform: uppercase;
     }
 
     @media (min-width: ${mobile.width}) {
+      padding: ${spacing.mid} ${spacing.large};
       position: absolute;
       justify-self: stretch;
-      min-width: calc(100% - ${spacing.mid} * 2);
+      min-width: 100%;
 
       h2 {
-        display: none;
+        text-align: left;
+        font-size: 1.8rem;
       }
     }
 
     @media (min-width: ${tablet.width}) {
-      padding: ${spacing.mid} ${spacing.large};
       h2 {
-        font-size: 2rem;
-        padding-bottom: ${spacing.mid};
+        display: none;
       }
     }
   `,
 
   description: css`
     text-indent: ${spacing.mid};
-    margin: ${spacing.mid} 0 ${spacing.small};
+    margin: ${spacing.mid} 0;
     line-height: 1.6rem;
 
     &::first-letter {
@@ -50,19 +52,18 @@ const styles = {
   `,
 
   link: css`
-    ${mixins.headerFont};
     ${mixins.textShadow};
     font-size: 1.2rem;
     text-align: center;
     margin: 0;
 
     @media (min-width: ${mobile.width}) {
-      margin-bottom: ${spacing.mid};
       text-align: left;
-      font-size: 2rem;
+      padding-bottom: ${spacing.mid};
     }
 
     @media (min-width: ${tablet.width}) {
+      margin-bottom: ${spacing.mid};
       font-size: 2rem;
     }
   `,

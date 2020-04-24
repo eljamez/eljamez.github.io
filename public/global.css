@@ -19,15 +19,11 @@ body {
 a {
   color: rgb(240, 219, 79);
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 a:hover {
-  color: rgba(240, 219, 79, 0.5);
-}
-
-a:visited {
-  color: rgb(240, 219, 79);
-  text-decoration: dotted;
+  text-shadow: 0px 2px 0px black;
 }
 
 label {
@@ -56,17 +52,7 @@ input[type="range"] {
 }
 
 button {
-  color: #333;
-  background-color: #f4f4f4;
   outline: none;
-}
-
-button:disabled {
-  color: #999;
-}
-
-button:not(:disabled):active {
-  background-color: #ddd;
 }
 
 button:focus {

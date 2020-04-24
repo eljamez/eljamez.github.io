@@ -4,13 +4,22 @@ import { spacing, mixins } from "./shared";
 const { css } = emotion;
 
 const styles = {
-  about: css`
+  links: css`
     padding: ${spacing.large};
     ${mixins.textShadow};
+    text-align: right;
     h2 {
       font-size: 1.8rem;
-      text-align: right;
       ${mixins.headerFont};
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        font-size: 0.8rem;
+        padding: ${spacing.xSmall} 0;
+      }
     }
     p {
       line-height: 1.2rem;

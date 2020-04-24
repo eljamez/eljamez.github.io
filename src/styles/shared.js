@@ -1,10 +1,20 @@
 export const mobile = {
-  width: "420px",
-  headerHeight: "40px",
+  width: "620px",
+  height: {
+    header: "36px",
+  },
+};
+
+export const tablet = {
+  width: "870px",
+  sidebar: "140px",
+  height: {
+    header: "58px",
+  },
 };
 
 export const height = {
-  header: "104px",
+  header: "80px",
   footer: "100px",
 };
 
@@ -39,4 +49,10 @@ export const colors = {
   red: `rgb(${rgb.red})`,
   green: `rgb(${rgb.green})`,
   purple: `rgb(${rgb.purple})`,
+};
+
+export const mixins = {
+  textShadow: `text-shadow: 0 1px 1px ${colors.gray}`,
+  headerFont: `font-family: 'Staatliches', cursive`,
+  transition: "transition: all .2s ease",
 };

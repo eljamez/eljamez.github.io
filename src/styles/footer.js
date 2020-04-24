@@ -5,7 +5,6 @@ const { css } = emotion;
 
 const styles = {
   footer: css`
-    display: none;
     box-sizing: border-box;
     height: ${height.footer};
     padding: ${spacing.small} ${spacing.large};

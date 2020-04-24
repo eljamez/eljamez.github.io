@@ -1,4 +1,4 @@
-### [jamescript.com](jamescript.com), brought to you by eljamez
+### [jamescript.com](https://www.jamescript.com), brought to you by eljamez
 
 Here you will find personal web projets of mine. I hope you enjoy. 😄
 

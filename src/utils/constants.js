@@ -17,6 +17,13 @@ export const sections = [
     link: "https://github.com/eljamez/",
     projects: [
       {
+        name: "js-package-generator",
+        description:
+          "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
+        url: "https://www.jamescript.com/js-package-generator/",
+        iconClass: "fas fa-tools",
+      },
+      {
         name: "React Keyboard",
         description: "A piano keyboard React component w/ musical typing.",
         url: "https://www.jamescript.com/React-Keyboard/",
@@ -38,6 +45,13 @@ export const sections = [
     link: "https://www.npmjs.com/~eljamez",
     projects: [
       {
+        name: "js-package-generator",
+        description:
+          "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
+        url: "https://www.npmjs.com/package/js-package-generator/",
+        iconClass: "fas fa-tools",
+      },
+      {
         name: "React Keyboard",
         description: "A piano keyboard React component w/ musical typing.",
         url: "https://www.npmjs.com/package/react-keyboard-component",
@@ -53,22 +67,30 @@ export const sections = [
     link: "https://codepen.io/eljamez",
     projects: [
       {
-        id: 1,
+        name: "eljamez, a css typeface",
+        description: "An experiment where fonts and css meet.",
+        url: "https://codepen.io/eljamez/pen/dYNjvY",
+        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="eljamez, a css typeface" src="https://codepen.io/eljamez/embed/dYNjvY?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
+        See the Pen <a href='https://codepen.io/eljamez/pen/dYNjvY'>eljamez, a css typeface</a> by James Hall
+        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
+        iconClass: "fas fa-font",
+      },
+      {
         name: "Place those Buttons!",
         description: "Just a fun experiment to place dots on a screen",
         url: "https://codepen.io/eljamez/pen/OJPMQbV",
-        embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Place those Buttons!" src="https://codepen.io/eljamez/embed/OJPMQbV?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
+        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="Place those Buttons!" src="https://codepen.io/eljamez/embed/OJPMQbV?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/OJPMQbV'>Place those Buttons!</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
       </iframe>`,
         iconClass: "far fa-circle",
       },
       {
-        id: 2,
         name: "Bendo",
         description: "Bending elements based on scroll position",
         url: "https://codepen.io/eljamez/pen/byVojv",
-        embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Bendo" src="https://codepen.io/eljamez/embed/byVojv?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
+        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="Bendo" src="https://codepen.io/eljamez/embed/byVojv?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
         See the Pen <a href='https://codepen.io/eljamez/pen/byVojv'>Bendo</a> by James Hall
         (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
       </iframe>`,

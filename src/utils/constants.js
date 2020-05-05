@@ -77,6 +77,16 @@ export const sections = [
         iconClass: "fas fa-font",
       },
       {
+        name: "Marquee In",
+        description: "Exploring the best way to transition in text.",
+        url: "https://codepen.io/eljamez/pen/dyYJWQz",
+        embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Marquee In" src="https://codepen.io/eljamez/embed/dyYJWQz?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+        See the Pen <a href='https://codepen.io/eljamez/pen/dyYJWQz'>Marquee In</a> by James Hall
+        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
+        iconClass: "fas fa-text-width",
+      },
+      {
         name: "Place those Buttons!",
         description: "Just a fun experiment to place dots on a screen",
         url: "https://codepen.io/eljamez/pen/OJPMQbV",

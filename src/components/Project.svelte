@@ -5,9 +5,15 @@
 </script>
 
 <div class={styles.project}>
+  {#if project.image}
+    <img src={project.image} alt={project.name} />
+  {:else}
+    {#if project.iconClass}
+      <i class={project.iconClass} />
+    {/if}
+  {/if}
   {#if project.name}
     <h3>
-      <i class={project.iconClass} />
       {project.name}
     </h3>
   {/if}
@@ -21,8 +27,5 @@
       <i class={project.iconClass} />
       {project.description}
     </p>
-  {/if}
-  {#if project.embed}
-    {@html project.embed}
   {/if}
 </div>

@@ -5,6 +5,8 @@ const { css } = emotion;
 
 const styles = {
   project: css`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     box-sizing: border-box;
     border-radius: 5px;
     padding: ${spacing.mid};
@@ -12,8 +14,14 @@ const styles = {
     margin: ${spacing.large} 0;
     width: 100%;
 
+    img {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
     h3 {
-      margin: 0 0 ${spacing.xSmall};
+      grid-column: 1 / -1;
+      margin: ${spacing.mid} 0 ${spacing.xSmall};
       font-size: 1.4rem;
       text-transform: uppercase;
       font-weight: bold;
@@ -23,6 +31,7 @@ const styles = {
     }
 
     p {
+      grid-column: 1 / -1;
       a {
         font-size: 0.8rem;
         font-weight: bold;
@@ -42,24 +51,30 @@ const styles = {
     }
 
     @media (min-width: ${mobile.width}) {
+      gap: ${spacing.mid};
+      grid-template-rows: 1fr 1fr 1fr;
       margin: 0 0 ${spacing.large};
+
+      img {
+        max-width: 270px;
+        width: auto;
+        grid-column: 1 / span 1;
+        grid-row: 1 / -1;
+      }
+
       h3 {
+        margin-top: 0;
         font-size: 1.6rem;
+        grid-column: 2 / -1;
+      }
+
+      p {
+        grid-column: 2 / -1;
       }
     }
 
     @media (min-width: ${tablet.width}) {
       margin: ${spacing.large} 0 calc(${spacing.large} * 2);
-      h3 {
-        font-size: 1.8rem;
-        transform: translateY(-30px);
-        color: rgba(0, 0, 0, 0.5);
-        line-height: 0;
-
-        i {
-          display: none;
-        }
-      }
 
       p {
         i {

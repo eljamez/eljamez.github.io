@@ -1,3 +1,5 @@
+import codepen from "./codepen.js";
+
 export const title = "JameScript.com";
 
 export const sections = [
@@ -7,7 +9,8 @@ export const sections = [
     iconClass: "fas fa-home",
     color: "green",
     description: `Welcome to JameScript.com, the Code Home, or "Chome" as it were, of me, <a href="https://eljamez.com">James Augustus Hall</a>. I\'m primarily a Front End Engineer and these are my personal projects. I hope you find something useful, fun, and / or interesing.`,
-    technical: `The site you are now viewing is hosted via <a href="https://pages.github.com/">GitHub Pages</a> and build using <a href="https://emotion.sh/">Emotion</a> and <a href="https://svelte.dev/">Svelte</a>, with help from <a href="https://fontawesome.com/">Font Awesome</a> and <a href="https://fonts.google.com/">Google Fonts</a>`,
+    technical: `The site you are now vi
+    ewing is hosted via <a href="https://pages.github.com/">GitHub Pages</a> and build using <a href="https://emotion.sh/">Emotion</a> and <a href="https://svelte.dev/">Svelte</a>, with help from <a href="https://fontawesome.com/">Font Awesome</a> and <a href="https://fonts.google.com/">Google Fonts</a>`,
   },
   {
     id: 1,
@@ -65,48 +68,7 @@ export const sections = [
     iconClass: "fab fa-codepen",
     color: "purple",
     link: "https://codepen.io/eljamez",
-    projects: [
-      {
-        name: "eljamez, a css typeface",
-        description: "An experiment where fonts and css meet.",
-        url: "https://codepen.io/eljamez/pen/dYNjvY",
-        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="eljamez, a css typeface" src="https://codepen.io/eljamez/embed/dYNjvY?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
-        See the Pen <a href='https://codepen.io/eljamez/pen/dYNjvY'>eljamez, a css typeface</a> by James Hall
-        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
-      </iframe>`,
-        iconClass: "fas fa-font",
-      },
-      {
-        name: "Marquee In",
-        description: "Exploring the best way to transition in text.",
-        url: "https://codepen.io/eljamez/pen/dyYJWQz",
-        embed: `<iframe height="265" style="width: 100%;" scrolling="no" title="Marquee In" src="https://codepen.io/eljamez/embed/dyYJWQz?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-        See the Pen <a href='https://codepen.io/eljamez/pen/dyYJWQz'>Marquee In</a> by James Hall
-        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
-      </iframe>`,
-        iconClass: "fas fa-text-width",
-      },
-      {
-        name: "Place those Buttons!",
-        description: "Just a fun experiment to place dots on a screen",
-        url: "https://codepen.io/eljamez/pen/OJPMQbV",
-        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="Place those Buttons!" src="https://codepen.io/eljamez/embed/OJPMQbV?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
-        See the Pen <a href='https://codepen.io/eljamez/pen/OJPMQbV'>Place those Buttons!</a> by James Hall
-        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
-      </iframe>`,
-        iconClass: "far fa-circle",
-      },
-      {
-        name: "Bendo",
-        description: "Bending elements based on scroll position",
-        url: "https://codepen.io/eljamez/pen/byVojv",
-        embed: `<iframe height="400" style="width: 100%;" scrolling="no" title="Bendo" src="https://codepen.io/eljamez/embed/byVojv?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" loading="lazy">
-        See the Pen <a href='https://codepen.io/eljamez/pen/byVojv'>Bendo</a> by James Hall
-        (<a href='https://codepen.io/eljamez'>@eljamez</a>) on <a href='https://codepen.io'>CodePen</a>.
-      </iframe>`,
-        iconClass: "fab fa-js",
-      },
-    ],
+    projects: codepen,
   },
 ];
 

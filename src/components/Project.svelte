@@ -3,7 +3,7 @@
 
   import styles from "../styles/project";
 
-  const defaultImage = "avatar.png";
+  const defaultImage = "../../public/avatar.png";
 </script>
 
 <div class={styles.project} style={`background-image: url(${project.image || defaultImage})`}>

@@ -2,20 +2,16 @@
   export let project;
 
   import styles from "../styles/project";
+
+  const defaultImage = "avatar.png";
 </script>
 
-<div class={styles.project}>
-  {#if project.image}
+<div class={styles.project} style={`background-image: url(${project.image || defaultImage})`}>
     <div
       class={styles.imageHolder}
-      style={`background-image: url(${project.image})`}
+      style={`background-image: url(${project.image || defaultImage})`}
     >
     </div>
-  {:else}
-    {#if project.iconClass}
-      <i class={project.iconClass} />
-    {/if}
-  {/if}
   <div class={styles.contentHolder}>
     {#if project.name}
       <h3>

@@ -6,16 +6,17 @@ const { css } = emotion;
 const styles = {
   project: css`
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 50px 1fr;
     box-sizing: border-box;
     border-radius: 5px;
-    padding: ${spacing.mid};
-    background-color: rgba(0, 0, 0, 0.5);
     margin: ${spacing.large} 0;
     width: 100%;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
 
     h3 {
-      margin: ${spacing.mid} 0 ${spacing.xSmall};
+      margin: 0 0 ${spacing.xSmall};
       font-size: 1.4rem;
       text-transform: uppercase;
       font-weight: bold;
@@ -44,7 +45,11 @@ const styles = {
     }
 
     @media (min-width: ${mobile.width}) {
+      background-image: none !important;
+      background-color: rgba(0, 0, 0, 0.5);
+      grid-template-columns: 100px 1fr;
       gap: ${spacing.mid};
+      padding: ${spacing.mid};
       margin: 0 0 ${spacing.large};
 
       h3 {
@@ -64,23 +69,31 @@ const styles = {
   `,
 
   imageHolder: css`
+    display: none;
     border-radius: 5px;
     background-size: cover;
     background-position: 50%;
-    height: 100px;
-    width: 100px;
-    grid-column: 1 / -1;
+    height: 50px;
+    width: 0px;
+    grid-column: 1 / span 0;
 
     @media (min-width: ${mobile.width}) {
+      display: block;
+      height: 100px;
+      width: 100px;
       grid-column: 1 / span 1;
     }
   `,
 
   contentHolder: css`
     grid-column: 1 / -1;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: ${spacing.small};
 
     @media (min-width: ${mobile.width}) {
       grid-column: 2 / -1;
+      background-color: transparent;
+      padding: 0;
     }
   `,
 };

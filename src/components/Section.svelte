@@ -11,6 +11,14 @@
 
   const { css } = emotion;
 
+  const getProjects = async (section) => {
+    if (section.name !== 'CodePen') {
+      const repos = await section.projects()
+      return repos;
+    } 
+    return section.projects;
+  }
+
   const xOrY = $isMobile ? "y" : "x";
 </script>
 
@@ -39,8 +47,16 @@
     </p>
   {/if}
   {#if section.projects}
-    {#each section.projects as project}
-      <Project {project} />
-    {/each}
+    {#await getProjects(section)}
+      <!-- promise is pending -->
+	    <p>Getting Data</p>
+    {:then value}
+      {#each value as project}
+        <Project {project} />
+      {/each}
+    {:catch error}
+	    <!-- promise was rejected -->
+	    <p>Something went wrong: {error.message}</p>
+    {/await}
   {/if}
 </div>

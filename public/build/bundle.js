@@ -11,6 +11,9 @@ var app = (function () {
             tar[k] = src[k];
         return tar;
     }
+    function is_promise(value) {
+        return value && typeof value === 'object' && typeof value.then === 'function';
+    }
     function add_location(element, file, line, column, char) {
         element.__svelte_meta = {
             loc: { file, line, column, char }
@@ -469,6 +472,72 @@ var app = (function () {
             }
         };
     }
+
+    function handle_promise(promise, info) {
+        const token = info.token = {};
+        function update(type, index, key, value) {
+            if (info.token !== token)
+                return;
+            info.resolved = value;
+            let child_ctx = info.ctx;
+            if (key !== undefined) {
+                child_ctx = child_ctx.slice();
+                child_ctx[key] = value;
+            }
+            const block = type && (info.current = type)(child_ctx);
+            let needs_flush = false;
+            if (info.block) {
+                if (info.blocks) {
+                    info.blocks.forEach((block, i) => {
+                        if (i !== index && block) {
+                            group_outros();
+                            transition_out(block, 1, 1, () => {
+                                info.blocks[i] = null;
+                            });
+                            check_outros();
+                        }
+                    });
+                }
+                else {
+                    info.block.d(1);
+                }
+                block.c();
+                transition_in(block, 1);
+                block.m(info.mount(), info.anchor);
+                needs_flush = true;
+            }
+            info.block = block;
+            if (info.blocks)
+                info.blocks[index] = block;
+            if (needs_flush) {
+                flush();
+            }
+        }
+        if (is_promise(promise)) {
+            const current_component = get_current_component();
+            promise.then(value => {
+                set_current_component(current_component);
+                update(info.then, 1, info.value, value);
+                set_current_component(null);
+            }, error => {
+                set_current_component(current_component);
+                update(info.catch, 2, info.error, error);
+                set_current_component(null);
+            });
+            // if we previously had a then/catch block, destroy it
+            if (info.current !== info.pending) {
+                update(info.pending, 0);
+                return true;
+            }
+        }
+        else {
+            if (info.current !== info.then) {
+                update(info.then, 1, info.value, promise);
+                return true;
+            }
+            info.resolved = promise;
+        }
+    }
     function create_component(block) {
         block && block.c();
     }
@@ -661,6 +730,27 @@ var app = (function () {
         $inject_state() { }
     }
 
+    const github_api_url = `https://api.github.com/users/eljamez/repos`;
+
+    const github = async () => {
+      let response = await fetch(github_api_url);
+      let data = await response.json();
+      return data.reduce((acc, curr) => {
+        if (!curr.private) {
+          acc = [
+            ...acc,
+            {
+              name: curr.name,
+              description: curr.description,
+              url: curr.homepage || curr.html_url,
+              image: curr.owner.avatar_url,
+            },
+          ];
+          return acc;
+        }
+      }, []);
+    };
+
     const RSS_URL = `https://codepen.io/collection/XEovPJ/feed/`;
 
     let codepen = [];
@@ -669,7 +759,6 @@ var app = (function () {
       .then((response) => response.text())
       .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
       .then((data) => {
-        console.log(data);
         const items = data.querySelectorAll("item");
         items.forEach((el) => {
           const pen = {
@@ -680,6 +769,24 @@ var app = (function () {
           codepen.push(pen);
         });
       });
+
+    const npmjs_api_url = `https://api.npms.io/v2/search?q=author:eljamez`;
+
+    const npm = async () => {
+      let response = await fetch(npmjs_api_url);
+      let data = await response.json();
+      return data.results.reduce((acc, curr) => {
+        acc = [
+          ...acc,
+          {
+            name: curr.package.name,
+            description: curr.package.description,
+            url: curr.package.links.npm,
+          },
+        ];
+        return acc;
+      }, []);
+    };
 
     const title = "JameScript.com";
 
@@ -695,61 +802,27 @@ var app = (function () {
       },
       {
         id: 1,
-        name: "Repos",
-        iconClass: "fab fa-github",
-        color: "blue",
-        link: "https://github.com/eljamez/",
-        projects: [
-          {
-            name: "js-package-generator",
-            description:
-              "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
-            url: "https://www.jamescript.com/js-package-generator/",
-            iconClass: "fas fa-tools",
-          },
-          {
-            name: "React Keyboard",
-            description: "A piano keyboard React component w/ musical typing.",
-            url: "https://www.jamescript.com/React-Keyboard/",
-            iconClass: "fas fa-music",
-          },
-          {
-            name: "Vanilla JS Library Boilerplate",
-            description: "A starting place to create a JavaScript library",
-            url: "http://www.jamescript.com/Vanilla-JS-Library-Boilerplate/",
-            iconClass: "fab fa-js",
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: "NPM",
-        iconClass: "fab fa-npm",
-        color: "red",
-        link: "https://www.npmjs.com/~eljamez",
-        projects: [
-          {
-            name: "js-package-generator",
-            description:
-              "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
-            url: "https://www.npmjs.com/package/js-package-generator/",
-            iconClass: "fas fa-tools",
-          },
-          {
-            name: "React Keyboard",
-            description: "A piano keyboard React component w/ musical typing.",
-            url: "https://www.npmjs.com/package/react-keyboard-component",
-            iconClass: "fas fa-music",
-          },
-        ],
-      },
-      {
-        id: 3,
         name: "CodePen",
         iconClass: "fab fa-codepen",
         color: "purple",
         link: "https://codepen.io/eljamez",
         projects: codepen,
+      },
+      {
+        id: 2,
+        name: "Repos",
+        iconClass: "fab fa-github",
+        color: "blue",
+        link: "https://github.com/eljamez/",
+        projects: github,
+      },
+      {
+        id: 3,
+        name: "NPM",
+        iconClass: "fab fa-npm",
+        color: "red",
+        link: "https://www.npmjs.com/~eljamez",
+        projects: npm,
       },
     ];
 
@@ -2170,7 +2243,7 @@ var app = (function () {
     const styles$8 = {
       project: css$8`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 100px 1fr;
     box-sizing: border-box;
     border-radius: 5px;
     padding: ${spacing.mid};
@@ -2178,13 +2251,7 @@ var app = (function () {
     margin: ${spacing.large} 0;
     width: 100%;
 
-    img {
-      grid-column: 1 / -1;
-      width: 100%;
-    }
-
     h3 {
-      grid-column: 1 / -1;
       margin: ${spacing.mid} 0 ${spacing.xSmall};
       font-size: 1.4rem;
       text-transform: uppercase;
@@ -2195,7 +2262,6 @@ var app = (function () {
     }
 
     p {
-      grid-column: 1 / -1;
       a {
         font-size: 0.8rem;
         font-weight: bold;
@@ -2216,30 +2282,15 @@ var app = (function () {
 
     @media (min-width: ${mobile.width}) {
       gap: ${spacing.mid};
-      grid-template-rows: 1fr 1fr 1fr;
       margin: 0 0 ${spacing.large};
-
-      img {
-        max-width: 270px;
-        width: auto;
-        grid-column: 1 / span 1;
-        grid-row: 1 / -1;
-      }
 
       h3 {
         margin-top: 0;
         font-size: 1.6rem;
-        grid-column: 2 / -1;
-      }
-
-      p {
-        grid-column: 2 / -1;
       }
     }
 
     @media (min-width: ${tablet.width}) {
-      margin: ${spacing.large} 0 calc(${spacing.large} * 2);
-
       p {
         i {
           display: inline-block;
@@ -2248,12 +2299,33 @@ var app = (function () {
       }
     }
   `,
+
+      imageHolder: css$8`
+    border-radius: 5px;
+    background-size: cover;
+    background-position: 50%;
+    height: 100px;
+    width: 100px;
+    grid-column: 1 / -1;
+
+    @media (min-width: ${mobile.width}) {
+      grid-column: 1 / span 1;
+    }
+  `,
+
+      contentHolder: css$8`
+    grid-column: 1 / -1;
+
+    @media (min-width: ${mobile.width}) {
+      grid-column: 2 / -1;
+    }
+  `,
     };
 
     /* src/components/Project.svelte generated by Svelte v3.20.1 */
     const file$7 = "src/components/Project.svelte";
 
-    // (11:4) {#if project.iconClass}
+    // (15:4) {#if project.iconClass}
     function create_if_block_4(ctx) {
     	let i;
     	let i_class_value;
@@ -2262,7 +2334,7 @@ var app = (function () {
     		c: function create() {
     			i = element("i");
     			attr_dev(i, "class", i_class_value = /*project*/ ctx[0].iconClass);
-    			add_location(i, file$7, 11, 6, 231);
+    			add_location(i, file$7, 15, 6, 295);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, i, anchor);
@@ -2281,7 +2353,7 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(11:4) {#if project.iconClass}",
+    		source: "(15:4) {#if project.iconClass}",
     		ctx
     	});
 
@@ -2290,31 +2362,27 @@ var app = (function () {
 
     // (8:2) {#if project.image}
     function create_if_block_3(ctx) {
-    	let img;
-    	let img_src_value;
-    	let img_alt_value;
+    	let div;
+    	let div_class_value;
+    	let div_style_value;
 
     	const block = {
     		c: function create() {
-    			img = element("img");
-    			if (img.src !== (img_src_value = /*project*/ ctx[0].image)) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", img_alt_value = /*project*/ ctx[0].name);
-    			add_location(img, file$7, 8, 4, 140);
+    			div = element("div");
+    			attr_dev(div, "class", div_class_value = styles$8.imageHolder);
+    			attr_dev(div, "style", div_style_value = `background-image: url(${/*project*/ ctx[0].image})`);
+    			add_location(div, file$7, 8, 4, 140);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
+    			insert_dev(target, div, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*project*/ 1 && img.src !== (img_src_value = /*project*/ ctx[0].image)) {
-    				attr_dev(img, "src", img_src_value);
-    			}
-
-    			if (dirty & /*project*/ 1 && img_alt_value !== (img_alt_value = /*project*/ ctx[0].name)) {
-    				attr_dev(img, "alt", img_alt_value);
+    			if (dirty & /*project*/ 1 && div_style_value !== (div_style_value = `background-image: url(${/*project*/ ctx[0].image})`)) {
+    				attr_dev(div, "style", div_style_value);
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
+    			if (detaching) detach_dev(div);
     		}
     	};
 
@@ -2329,7 +2397,7 @@ var app = (function () {
     	return block;
     }
 
-    // (15:2) {#if project.name}
+    // (20:4) {#if project.name}
     function create_if_block_2(ctx) {
     	let h3;
     	let t_value = /*project*/ ctx[0].name + "";
@@ -2339,7 +2407,7 @@ var app = (function () {
     		c: function create() {
     			h3 = element("h3");
     			t = text(t_value);
-    			add_location(h3, file$7, 15, 4, 306);
+    			add_location(h3, file$7, 20, 6, 411);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -2357,14 +2425,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(15:2) {#if project.name}",
+    		source: "(20:4) {#if project.name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (20:2) {#if project.url}
+    // (25:4) {#if project.url}
     function create_if_block_1(ctx) {
     	let p;
     	let a;
@@ -2378,8 +2446,8 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = /*project*/ ctx[0].url);
-    			add_location(a, file$7, 21, 6, 384);
-    			add_location(p, file$7, 20, 4, 374);
+    			add_location(a, file$7, 26, 8, 501);
+    			add_location(p, file$7, 25, 6, 489);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2402,44 +2470,31 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(20:2) {#if project.url}",
+    		source: "(25:4) {#if project.url}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (25:2) {#if project.description}
+    // (30:4) {#if project.description}
     function create_if_block(ctx) {
     	let p;
-    	let i;
-    	let i_class_value;
-    	let t0;
-    	let t1_value = /*project*/ ctx[0].description + "";
-    	let t1;
+    	let t_value = /*project*/ ctx[0].description + "";
+    	let t;
 
     	const block = {
     		c: function create() {
     			p = element("p");
-    			i = element("i");
-    			t0 = space();
-    			t1 = text(t1_value);
-    			attr_dev(i, "class", i_class_value = /*project*/ ctx[0].iconClass);
-    			add_location(i, file$7, 26, 6, 483);
-    			add_location(p, file$7, 25, 4, 473);
+    			t = text(t_value);
+    			add_location(p, file$7, 30, 6, 598);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
-    			append_dev(p, i);
-    			append_dev(p, t0);
-    			append_dev(p, t1);
+    			append_dev(p, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*project*/ 1 && i_class_value !== (i_class_value = /*project*/ ctx[0].iconClass)) {
-    				attr_dev(i, "class", i_class_value);
-    			}
-
-    			if (dirty & /*project*/ 1 && t1_value !== (t1_value = /*project*/ ctx[0].description + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*project*/ 1 && t_value !== (t_value = /*project*/ ctx[0].description + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -2450,7 +2505,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(25:2) {#if project.description}",
+    		source: "(30:4) {#if project.description}",
     		ctx
     	});
 
@@ -2458,11 +2513,13 @@ var app = (function () {
     }
 
     function create_fragment$7(ctx) {
-    	let div;
+    	let div1;
     	let t0;
+    	let div0;
     	let t1;
     	let t2;
-    	let div_class_value;
+    	let div0_class_value;
+    	let div1_class_value;
 
     	function select_block_type(ctx, dirty) {
     		if (/*project*/ ctx[0].image) return create_if_block_3;
@@ -2477,29 +2534,33 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			div1 = element("div");
     			if (if_block0) if_block0.c();
     			t0 = space();
+    			div0 = element("div");
     			if (if_block1) if_block1.c();
     			t1 = space();
     			if (if_block2) if_block2.c();
     			t2 = space();
     			if (if_block3) if_block3.c();
-    			attr_dev(div, "class", div_class_value = styles$8.project);
-    			add_location(div, file$7, 6, 0, 85);
+    			attr_dev(div0, "class", div0_class_value = styles$8.contentHolder);
+    			add_location(div0, file$7, 18, 2, 347);
+    			attr_dev(div1, "class", div1_class_value = styles$8.project);
+    			add_location(div1, file$7, 6, 0, 85);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			if (if_block0) if_block0.m(div, null);
-    			append_dev(div, t0);
-    			if (if_block1) if_block1.m(div, null);
-    			append_dev(div, t1);
-    			if (if_block2) if_block2.m(div, null);
-    			append_dev(div, t2);
-    			if (if_block3) if_block3.m(div, null);
+    			insert_dev(target, div1, anchor);
+    			if (if_block0) if_block0.m(div1, null);
+    			append_dev(div1, t0);
+    			append_dev(div1, div0);
+    			if (if_block1) if_block1.m(div0, null);
+    			append_dev(div0, t1);
+    			if (if_block2) if_block2.m(div0, null);
+    			append_dev(div0, t2);
+    			if (if_block3) if_block3.m(div0, null);
     		},
     		p: function update(ctx, [dirty]) {
     			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
@@ -2510,7 +2571,7 @@ var app = (function () {
 
     				if (if_block0) {
     					if_block0.c();
-    					if_block0.m(div, t0);
+    					if_block0.m(div1, t0);
     				}
     			}
 
@@ -2520,7 +2581,7 @@ var app = (function () {
     				} else {
     					if_block1 = create_if_block_2(ctx);
     					if_block1.c();
-    					if_block1.m(div, t1);
+    					if_block1.m(div0, t1);
     				}
     			} else if (if_block1) {
     				if_block1.d(1);
@@ -2533,7 +2594,7 @@ var app = (function () {
     				} else {
     					if_block2 = create_if_block_1(ctx);
     					if_block2.c();
-    					if_block2.m(div, t2);
+    					if_block2.m(div0, t2);
     				}
     			} else if (if_block2) {
     				if_block2.d(1);
@@ -2546,7 +2607,7 @@ var app = (function () {
     				} else {
     					if_block3 = create_if_block(ctx);
     					if_block3.c();
-    					if_block3.m(div, null);
+    					if_block3.m(div0, null);
     				}
     			} else if (if_block3) {
     				if_block3.d(1);
@@ -2556,7 +2617,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
 
     			if (if_block0) {
     				if_block0.d();
@@ -2709,11 +2770,11 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
+    	child_ctx[7] = list[i];
     	return child_ctx;
     }
 
-    // (23:2) {#if section.name}
+    // (31:2) {#if section.name}
     function create_if_block_4$1(ctx) {
     	let h2;
     	let t_value = /*section*/ ctx[0].name + "";
@@ -2723,7 +2784,7 @@ var app = (function () {
     		c: function create() {
     			h2 = element("h2");
     			t = text(t_value);
-    			add_location(h2, file$8, 23, 4, 697);
+    			add_location(h2, file$8, 31, 4, 884);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -2741,14 +2802,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(23:2) {#if section.name}",
+    		source: "(31:2) {#if section.name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (26:2) {#if section.link}
+    // (34:2) {#if section.link}
     function create_if_block_3$1(ctx) {
     	let p;
     	let a;
@@ -2763,9 +2824,9 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = /*section*/ ctx[0].link);
-    			add_location(a, file$8, 27, 6, 784);
+    			add_location(a, file$8, 35, 6, 971);
     			attr_dev(p, "class", p_class_value = styles$9.link);
-    			add_location(p, file$8, 26, 4, 754);
+    			add_location(p, file$8, 34, 4, 941);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2788,14 +2849,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(26:2) {#if section.link}",
+    		source: "(34:2) {#if section.link}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (31:2) {#if section.description}
+    // (39:2) {#if section.description}
     function create_if_block_2$1(ctx) {
     	let p;
     	let raw_value = /*section*/ ctx[0].description + "";
@@ -2805,7 +2866,7 @@ var app = (function () {
     		c: function create() {
     			p = element("p");
     			attr_dev(p, "class", p_class_value = styles$9.description);
-    			add_location(p, file$8, 31, 4, 875);
+    			add_location(p, file$8, 39, 4, 1062);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2822,14 +2883,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(31:2) {#if section.description}",
+    		source: "(39:2) {#if section.description}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (36:2) {#if section.technical}
+    // (44:2) {#if section.technical}
     function create_if_block_1$1(ctx) {
     	let p;
     	let raw_value = /*section*/ ctx[0].technical + "";
@@ -2839,7 +2900,7 @@ var app = (function () {
     		c: function create() {
     			p = element("p");
     			attr_dev(p, "class", p_class_value = styles$9.description);
-    			add_location(p, file$8, 36, 4, 987);
+    			add_location(p, file$8, 44, 4, 1174);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -2856,18 +2917,132 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(36:2) {#if section.technical}",
+    		source: "(44:2) {#if section.technical}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:2) {#if section.projects}
+    // (49:2) {#if section.projects}
     function create_if_block$1(ctx) {
+    	let await_block_anchor;
+    	let promise;
+    	let current;
+
+    	let info = {
+    		ctx,
+    		current: null,
+    		token: null,
+    		pending: create_pending_block,
+    		then: create_then_block,
+    		catch: create_catch_block,
+    		value: 5,
+    		error: 6,
+    		blocks: [,,,]
+    	};
+
+    	handle_promise(promise = /*getProjects*/ ctx[2](/*section*/ ctx[0]), info);
+
+    	const block = {
+    		c: function create() {
+    			await_block_anchor = empty();
+    			info.block.c();
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, await_block_anchor, anchor);
+    			info.block.m(target, info.anchor = anchor);
+    			info.mount = () => await_block_anchor.parentNode;
+    			info.anchor = await_block_anchor;
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			info.ctx = ctx;
+
+    			if (dirty & /*section*/ 1 && promise !== (promise = /*getProjects*/ ctx[2](/*section*/ ctx[0])) && handle_promise(promise, info)) ; else {
+    				const child_ctx = ctx.slice();
+    				child_ctx[5] = info.resolved;
+    				info.block.p(child_ctx, dirty);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(info.block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			for (let i = 0; i < 3; i += 1) {
+    				const block = info.blocks[i];
+    				transition_out(block);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(await_block_anchor);
+    			info.block.d(detaching);
+    			info.token = null;
+    			info = null;
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(49:2) {#if section.projects}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (57:4) {:catch error}
+    function create_catch_block(ctx) {
+    	let p;
+    	let t0;
+    	let t1_value = /*error*/ ctx[6].message + "";
+    	let t1;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			t0 = text("Something went wrong: ");
+    			t1 = text(t1_value);
+    			add_location(p, file$8, 58, 5, 1524);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t0);
+    			append_dev(p, t1);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*section*/ 1 && t1_value !== (t1_value = /*error*/ ctx[6].message + "")) set_data_dev(t1, t1_value);
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_catch_block.name,
+    		type: "catch",
+    		source: "(57:4) {:catch error}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (53:4) {:then value}
+    function create_then_block(ctx) {
     	let each_1_anchor;
     	let current;
-    	let each_value = /*section*/ ctx[0].projects;
+    	let each_value = /*value*/ ctx[5];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2896,8 +3071,8 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*section*/ 1) {
-    				each_value = /*section*/ ctx[0].projects;
+    			if (dirty & /*getProjects, section*/ 5) {
+    				each_value = /*value*/ ctx[5];
     				validate_each_argument(each_value);
     				let i;
 
@@ -2950,21 +3125,21 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$1.name,
-    		type: "if",
-    		source: "(41:2) {#if section.projects}",
+    		id: create_then_block.name,
+    		type: "then",
+    		source: "(53:4) {:then value}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:4) {#each section.projects as project}
+    // (54:6) {#each value as project}
     function create_each_block$1(ctx) {
     	let current;
 
     	const project = new Project({
-    			props: { project: /*project*/ ctx[4] },
+    			props: { project: /*project*/ ctx[7] },
     			$$inline: true
     		});
 
@@ -2978,7 +3153,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const project_changes = {};
-    			if (dirty & /*section*/ 1) project_changes.project = /*project*/ ctx[4];
+    			if (dirty & /*section*/ 1) project_changes.project = /*project*/ ctx[7];
     			project.$set(project_changes);
     		},
     		i: function intro(local) {
@@ -2999,7 +3174,39 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(42:4) {#each section.projects as project}",
+    		source: "(54:6) {#each value as project}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (50:33)        <!-- promise is pending -->      <p>Getting Data</p>     {:then value}
+    function create_pending_block(ctx) {
+    	let p;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			p.textContent = "Getting Data";
+    			add_location(p, file$8, 51, 5, 1352);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_pending_block.name,
+    		type: "pending",
+    		source: "(50:33)        <!-- promise is pending -->      <p>Getting Data</p>     {:then value}",
     		ctx
     	});
 
@@ -3039,7 +3246,7 @@ var app = (function () {
     ${styles$9.section};
     section_${/*section*/ ctx[0].name.toLowerCase()};`);
 
-    			add_location(div, file$8, 16, 0, 428);
+    			add_location(div, file$8, 24, 0, 615);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3195,9 +3402,19 @@ var app = (function () {
     function instance$8($$self, $$props, $$invalidate) {
     	let $isMobile;
     	validate_store(isMobile, "isMobile");
-    	component_subscribe($$self, isMobile, $$value => $$invalidate(2, $isMobile = $$value));
+    	component_subscribe($$self, isMobile, $$value => $$invalidate(3, $isMobile = $$value));
     	let { section } = $$props;
     	const { css } = emotion;
+
+    	const getProjects = async section => {
+    		if (section.name !== "CodePen") {
+    			const repos = await section.projects();
+    			return repos;
+    		}
+
+    		return section.projects;
+    	};
+
     	const xOrY = $isMobile ? "y" : "x";
     	const writable_props = ["section"];
 
@@ -3223,6 +3440,7 @@ var app = (function () {
     		rgb,
     		styles: styles$9,
     		css,
+    		getProjects,
     		xOrY,
     		$isMobile
     	});
@@ -3235,7 +3453,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [section, css];
+    	return [section, css, getProjects];
     }
 
     class Section extends SvelteComponentDev {

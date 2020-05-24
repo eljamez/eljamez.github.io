@@ -1,4 +1,6 @@
+import github from "./github.js";
 import codepen from "./codepen.js";
+import npm from "./npm.js";
 
 export const title = "JameScript.com";
 
@@ -14,61 +16,27 @@ export const sections = [
   },
   {
     id: 1,
-    name: "Repos",
-    iconClass: "fab fa-github",
-    color: "blue",
-    link: "https://github.com/eljamez/",
-    projects: [
-      {
-        name: "js-package-generator",
-        description:
-          "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
-        url: "https://www.jamescript.com/js-package-generator/",
-        iconClass: "fas fa-tools",
-      },
-      {
-        name: "React Keyboard",
-        description: "A piano keyboard React component w/ musical typing.",
-        url: "https://www.jamescript.com/React-Keyboard/",
-        iconClass: "fas fa-music",
-      },
-      {
-        name: "Vanilla JS Library Boilerplate",
-        description: "A starting place to create a JavaScript library",
-        url: "http://www.jamescript.com/Vanilla-JS-Library-Boilerplate/",
-        iconClass: "fab fa-js",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "NPM",
-    iconClass: "fab fa-npm",
-    color: "red",
-    link: "https://www.npmjs.com/~eljamez",
-    projects: [
-      {
-        name: "js-package-generator",
-        description:
-          "Generate a (vanilla) JS package with this easy-to-use command line tool. Just run `npx js-package-generator`",
-        url: "https://www.npmjs.com/package/js-package-generator/",
-        iconClass: "fas fa-tools",
-      },
-      {
-        name: "React Keyboard",
-        description: "A piano keyboard React component w/ musical typing.",
-        url: "https://www.npmjs.com/package/react-keyboard-component",
-        iconClass: "fas fa-music",
-      },
-    ],
-  },
-  {
-    id: 3,
     name: "CodePen",
     iconClass: "fab fa-codepen",
     color: "purple",
     link: "https://codepen.io/eljamez",
     projects: codepen,
+  },
+  {
+    id: 2,
+    name: "Repos",
+    iconClass: "fab fa-github",
+    color: "blue",
+    link: "https://github.com/eljamez/",
+    projects: github,
+  },
+  {
+    id: 3,
+    name: "NPM",
+    iconClass: "fab fa-npm",
+    color: "red",
+    link: "https://www.npmjs.com/~eljamez",
+    projects: npm,
   },
 ];
 

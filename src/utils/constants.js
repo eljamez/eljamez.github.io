@@ -57,7 +57,7 @@ export const links = [
   },
   {
     name: "ensly mogul",
-    url: "https://enslymogul.com",
+    url: "http://enslymogul.com",
     iconClass: "fas fa-music",
   },
   {

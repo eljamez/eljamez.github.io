@@ -10,7 +10,7 @@ export const sections = [
     name: "Home",
     iconClass: "fas fa-home",
     color: "green",
-    description: `Welcome to JameScript.com, the Code Home, or "Chome" as it were, of me, <a href="https://eljamez.com">James Augustus Hall</a>. I\'m primarily a Front End Engineer and these are my personal projects and experiments. I hope you find something useful, fun, and / or interesing.`,
+    description: `Welcome to JameScript.com, the internet code home of <a href="https://eljamez.com">James Augustus Hall</a>. I\'m a Software Engineer and these are my personal projects and experiments. I hope you find something useful, fun, and/or interesing.`,
     technical: `The site you are now viewing is hosted via <a href="https://pages.github.com/">GitHub Pages</a> and build using <a href="https://emotion.sh/">Emotion</a> and <a href="https://svelte.dev/">Svelte</a>, with help from <a href="https://fontawesome.com/">Font Awesome</a> and <a href="https://fonts.google.com/">Google Fonts</a>`,
   },
   {

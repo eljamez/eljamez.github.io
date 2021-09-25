@@ -5,7 +5,7 @@
 
   const defaultImage = "avatar.png";
 
-  const avatar = project.image ? project.image : "avatar.png";
+  const avatar = project.image ? project.image : "public/avatar.png";
 </script>
 
 <div class={styles.project} style={`background-image: url(${avatar})`}>

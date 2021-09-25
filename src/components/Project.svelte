@@ -3,15 +3,13 @@
 
   import styles from "../styles/project";
 
-  const defaultImage = "../public/avatar.png";
+  const defaultImage = "avatar.png";
+
+  const avatar = project.image ? project.image : "avatar.png";
 </script>
 
-<div
-  class={styles.project}
-  style={`background-image: url(${project.image || defaultImage})`}>
-  <div
-    class={styles.imageHolder}
-    style={`background-image: url(${project.image || defaultImage})`} />
+<div class={styles.project} style={`background-image: url(${avatar})`}>
+  <div class={styles.imageHolder} style={`background-image: url(${avatar})`} />
   <div class={styles.contentHolder}>
     {#if project.name}
       <h3>{project.name}</h3>
